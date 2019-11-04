@@ -1,0 +1,15 @@
+# helm repo add elastic https://helm.elastic.co
+# chart: elastic/elasticsearch
+# git: https://github.com/elastic/helm-charts/tree/master/elasticsearch
+---
+replicas: 1
+minimumMasterNodes: 1
+volumeClaimTemplate:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: aws-efs
+rbac:
+  create: true
+
+clusterHealthCheckParams: "wait_for_status=yellow&timeout=50s"

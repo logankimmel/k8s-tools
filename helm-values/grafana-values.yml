@@ -1,0 +1,11 @@
+# Repo: helm install stable/grafana
+# Chart: stable/grafana
+# Git: https://github.com/helm/charts/tree/master/stable/grafana
+---
+persistence:
+  enabled: true
+  type: pvc
+  size: 10Gi
+  storageClassName: aws-efs
+
+dashboards: false

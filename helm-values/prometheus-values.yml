@@ -1,0 +1,17 @@
+# Repo: stable/prometheus
+# Chart: stable/prometheus
+# Git: https://github.com/helm/charts/tree/master/stable/prometheus
+---
+alertmanager:
+  persistentVolume:
+    storageClass: aws-efs
+
+server:
+  persistentVolume:
+    storageClass: aws-efs
+
+kubeStateMetrics:
+  enabled: false
+
+nodeExporter:
+  enabled: false
