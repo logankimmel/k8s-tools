@@ -1,0 +1,95 @@
+# Prometheus Operator
+# https://github.com/helm/charts/tree/master/stable/prometheus-operator
+#
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      storage:
+       volumeClaimTemplate:
+         spec:
+           storageClassName: aws-efs
+           accessModes: ["ReadWriteOnce"]
+           resources:
+             requests:
+               storage: 10Gi
+  service:
+    servicePort: 80
+    sessionAffinity: None
+
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    retention: 30d
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 16Gi
+      requests:
+        cpu: 1000m
+        memory: 8Gi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: aws-efs
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+    # secrets:
+    # - etcd_ca
+    # - etcd_cert
+    # - etcd_key
+
+
+
+        
+      
+
+
+grafana:
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+
+  persistence:
+    type: statefulset
+    enabled: true
+    size: 10Gi
+
+coreDns:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeDns:
+  enabled: true
+
+kubeEtcd:
+  enabled: false
+  # The TLS authentication appears to be broken
+  # endpoints:
+  # - https://172.31.12.233
+  # # This should be all of the managers
+  # port: 12379
+  # serviceMonitor:
+  #   caFile: etcd_ca
+  #   certFile: etcd_cert
+  #   keyFile: etcd_key
+
+kubeProxy:
+  enabled: false
+
+  
+  
+
