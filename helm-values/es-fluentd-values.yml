@@ -3,7 +3,8 @@
 # Git: https://github.com/kiwigrid/helm-charts/tree/master/charts/fluentd-elasticsearch
 ---
 elasticsearch:
-  host: elasticsearch-master
+  host: 
+  - elasticsearch-master
 
 configMaps:
   useDefaults:
