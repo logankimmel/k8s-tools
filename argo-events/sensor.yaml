@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: webhook
+spec:
+  template:
+    serviceAccountName: argo-events-sa
+  dependencies:
+  - name: payload
+    eventSourceName: webhook
+    eventName: devops-toolkit
+  triggers:
+  - template:
+      name: microservice-demo-update
+      k8s:
+        group: apps
+        version: v1
+        resource: deployments
+        operation: patch
+        patchStrategy: "application/strategic-merge-patch+json"
+        source:
+          resource:
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: ""
+              namespace: microservices
+            spec:
+              template:
+                spec:
+                  containers:
+                  - image: ""
+                    name: server
+        parameters:
+          - src:
+              dependencyName: payload
+              dataKey: body.event_data.repository.name
+            dest: metadata.name
+          - src:
+              dependencyName: payload
+              dataKey: body.event_data.resources.0.resource_url
+            dest: spec.template.spec.containers.0.image

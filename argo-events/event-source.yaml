@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: webhook
+spec:
+  serviceAccountName: argo-events-sa
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000
+  webhook:
+    devops-toolkit:
+      port: "12000"
+      endpoint: /microservices-demo
+      method: POST
+  template:
+    serviceAccountName: argo-events-sa
